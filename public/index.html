@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Dragable Demo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .drag {
+      position: fixed;
+      width: 100px;
+      height: 100px;
+      background: red;
+      right: 100px;
+      bottom: 200px;
+    }
+
+    .drag2 {
+      background: yellow;
+      bottom: 20px;
+    }
+
+    .op {
+      cursor: move;
+    }
+
+    .area {
+      position: relative;
+      width: 500px;
+      height: 700px;
+      margin: 50px 90px;
+      background: grey;
+    }
+
+    .drag3 {
+      width: 150px;
+      height: 100px;
+      background: blue;
+      color: white;
+    }
+
+  </style>
+  <script>
+    window.onload = function () {
+      new AutoTs.Dragable('.drag');
+      new AutoTs.Dragable('.drag2', {
+        dragArea: 'span',
+        container: document,
+      });
+      new AutoTs.Dragable('.drag3', {
+        dragArea: 'span',
+        container: '.area',
+      })
+    };
+  </script>
+</head>
+<body>
+  <section class="drag"></section>
+
+  <section class="drag drag2">
+    <span class="op">拖这里1</span> <br><br>
+    <span class="op">拖这里2</span>
+  </section>
+
+  <section class="area">
+    <div class="drag3"><span class="op">拖这里呗</span></div>
+  </section>
+</body>
+</html>
