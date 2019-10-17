@@ -1,6 +1,6 @@
 /*!
  * @autots/dragable v0.0.2
- * Last Modified @ 2019-10-17 4:14:33 PM
+ * Last Modified @ 2019-10-17 6:10:29 PM
  * Released under the MIT License.
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -144,9 +144,12 @@ var Dragable = /** @class */ (function () {
                     else if (clientWidth - left < _this.target.offsetWidth) {
                         left = clientWidth - _this.target.offsetWidth;
                     }
-                    _this.target.style.top = top_1 + 'px';
-                    _this.target.style.left = left + 'px';
-                    _this.target.style.right = 'auto';
+                    _this.target.style.cssText += "top: " + top_1 + "px; left: " + left + "px; right: auto; bottom: auto; margin: 0;";
+                    // this.target.style.top = top + 'px';
+                    // this.target.style.left = left + 'px';
+                    // this.target.style.right = 'auto';
+                    // this.target.style.bottom = 'auto';
+                    // this.target.style.margin = '0px';
                 }
             };
             var stop = function () {
@@ -215,10 +218,10 @@ var Dragable = /** @class */ (function () {
     Dragable.prototype.init = function () {
         var _this = this;
         if (this.container === window) {
-            this.target.style.cssText = "position: fixed; z-index: " + this.config.zIndex;
+            this.target.style.cssText += "position: fixed; z-index: " + this.config.zIndex;
         }
         else {
-            this.target.style.cssText = "position: absolute; z-index: " + this.config.zIndex;
+            this.target.style.cssText += "position: absolute; z-index: " + this.config.zIndex;
         }
         this.draging = false;
         Array.prototype.slice.call(this.dragArea).forEach(function (el) {
@@ -228,6 +231,7 @@ var Dragable = /** @class */ (function () {
     Dragable.prototype.destroy = function () {
         var _this = this;
         this.draging = false;
+        this.target.style.cssText = '';
         Array.prototype.slice.call(this.dragArea).forEach(function (el) {
             el.removeEventListener('mousedown', _this.dragListener, false);
         });

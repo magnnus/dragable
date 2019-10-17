@@ -1,6 +1,6 @@
 {
   "name": "@autots/dragable",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "a dragable lib",
   "main": "dist/dragable.js",
   "browser": "dist/dragable.js",

@@ -99,9 +99,13 @@ export default class Dragable {
         } else if (clientWidth - left < this.target.offsetWidth) {
           left = clientWidth - this.target.offsetWidth;
         }
-        this.target.style.top = top + 'px';
-        this.target.style.left = left + 'px';
-        this.target.style.right = 'auto';
+
+        this.target.style.cssText += `top: ${top}px; left: ${left}px; right: auto; bottom: auto; margin: 0;`;
+        // this.target.style.top = top + 'px';
+        // this.target.style.left = left + 'px';
+        // this.target.style.right = 'auto';
+        // this.target.style.bottom = 'auto';
+        // this.target.style.margin = '0px';
       }
     };
 
@@ -119,9 +123,9 @@ export default class Dragable {
 
   public init (): void {
     if (this.container === window) {
-      this.target.style.cssText = `position: fixed; z-index: ${this.config.zIndex}`;
+      this.target.style.cssText += `position: fixed; z-index: ${this.config.zIndex}`;
     } else {
-      this.target.style.cssText = `position: absolute; z-index: ${this.config.zIndex}`;
+      this.target.style.cssText += `position: absolute; z-index: ${this.config.zIndex}`;
     }
     this.draging = false;
     Array.prototype.slice.call(this.dragArea).forEach((el: HTMLElement) => {
@@ -131,6 +135,7 @@ export default class Dragable {
 
   public destroy (): void {
     this.draging = false;
+    this.target.style.cssText = '';
     Array.prototype.slice.call(this.dragArea).forEach((el: HTMLElement) => {
       el.removeEventListener('mousedown', this.dragListener, false);
     });
