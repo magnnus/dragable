@@ -1,13 +1,12 @@
 export interface Iconfig {
-    selector: string;
-    dragArea: string;
+    dragArea?: string;
     zIndex?: number;
-    benchWidth?: number;
     container?: Window | Document | string | null | undefined;
 }
 export default class Dragable {
+    selector: string;
     config: Iconfig;
-    constructor(config: Iconfig);
+    constructor(selector: string, config?: Iconfig);
     target: HTMLElement;
     dragArea: ArrayLike<HTMLElement>;
     container: Window | HTMLElement;
@@ -19,7 +18,4 @@ export default class Dragable {
     draging: boolean;
     init(): void;
     destroy(): void;
-    resetPos: () => void;
-    private timer;
-    private resizeListener;
 }

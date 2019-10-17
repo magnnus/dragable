@@ -1,7 +1,6 @@
 export interface Iconfig {
   dragArea?: string;
   zIndex?: number;
-  benchWidth?: number;
   container?: Window | Document | string | null | undefined;
 };
 
@@ -43,10 +42,6 @@ export default class Dragable {
     // step 3. init optional params
     if (!config.zIndex) {
       this.config.zIndex = 999;
-    }
-
-    if (!config.benchWidth) {
-      this.config.benchWidth = 1200;
     }
 
     // step 4. init event
@@ -132,9 +127,6 @@ export default class Dragable {
     Array.prototype.slice.call(this.dragArea).forEach((el: HTMLElement) => {
       el.addEventListener('mousedown', this.dragListener, false);
     });
-    if (this.container === window) {
-      window.addEventListener('resize', this.resizeListener);
-    }
   }
 
   public destroy (): void {
@@ -142,28 +134,5 @@ export default class Dragable {
     Array.prototype.slice.call(this.dragArea).forEach((el: HTMLElement) => {
       el.removeEventListener('mousedown', this.dragListener, false);
     });
-  }
-
-  public resetPos = (): void => {
-    if (this.container !== window) {
-      return;
-    }
-    const targetWidth = this.target.offsetWidth;
-    const clientWidth = this.getContainerRect().width;
-    const benchContainerWidth = 1200;
-    if (clientWidth - benchContainerWidth < targetWidth * 2) {
-      this.target.style.marginLeft = '0px';
-      this.target.style.left = `${clientWidth - targetWidth}px`;
-    } else {
-      this.target.style.marginLeft = '0px';
-      this.target.style.left = `left: ${clientWidth / 2 + benchContainerWidth / 2 + 10}px`;
-    }
-  }
-
-  private timer: number;
-
-  private resizeListener = (): void => {
-    this.timer && window.clearTimeout(this.timer);
-    this.timer = window.setTimeout(this.resetPos, 300);
   }
 };

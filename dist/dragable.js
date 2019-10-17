@@ -1,6 +1,6 @@
 /*!
- * @autots/dragable v0.0.1
- * Last Modified @ 2019-10-17 3:06:47 PM
+ * @autots/dragable v0.0.2
+ * Last Modified @ 2019-10-17 4:14:33 PM
  * Released under the MIT License.
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -108,8 +108,10 @@ return /******/ (function(modules) { // webpackBootstrap
 Object.defineProperty(exports, "__esModule", { value: true });
 ;
 var Dragable = /** @class */ (function () {
-    function Dragable(config) {
+    function Dragable(selector, config) {
         var _this = this;
+        if (config === void 0) { config = {}; }
+        this.selector = selector;
         this.config = config;
         this.dragListener = function (e) {
             _this.draging = true;
@@ -155,31 +157,11 @@ var Dragable = /** @class */ (function () {
             document.addEventListener('mousemove', move);
             document.addEventListener('mouseup', stop);
         };
-        this.resetPos = function () {
-            if (_this.container !== window) {
-                return;
-            }
-            var targetWidth = _this.target.offsetWidth;
-            var clientWidth = _this.getContainerRect().width;
-            var benchContainerWidth = 1200;
-            if (clientWidth - benchContainerWidth < targetWidth * 2) {
-                _this.target.style.marginLeft = '0px';
-                _this.target.style.left = clientWidth - targetWidth + "px";
-            }
-            else {
-                _this.target.style.marginLeft = '0px';
-                _this.target.style.left = "left: " + (clientWidth / 2 + benchContainerWidth / 2 + 10) + "px";
-            }
-        };
-        this.resizeListener = function () {
-            _this.timer && window.clearTimeout(_this.timer);
-            _this.timer = window.setTimeout(_this.resetPos, 300);
-        };
         // step 1. init target
-        if (typeof config.selector !== 'string') {
+        if (typeof selector !== 'string') {
             throw new Error('Wrong Type: the selector param must be a String!');
         }
-        this.target = document.querySelector(config.selector);
+        this.target = document.querySelector(selector);
         if (!this.target) {
             throw new Error("Not Found: the element can't be found with the 'selector' param");
         }
@@ -213,9 +195,6 @@ var Dragable = /** @class */ (function () {
         if (!config.zIndex) {
             this.config.zIndex = 999;
         }
-        if (!config.benchWidth) {
-            this.config.benchWidth = 1200;
-        }
         // step 4. init event
         this.init();
     }
@@ -245,9 +224,6 @@ var Dragable = /** @class */ (function () {
         Array.prototype.slice.call(this.dragArea).forEach(function (el) {
             el.addEventListener('mousedown', _this.dragListener, false);
         });
-        if (this.container === window) {
-            window.addEventListener('resize', this.resizeListener);
-        }
     };
     Dragable.prototype.destroy = function () {
         var _this = this;
